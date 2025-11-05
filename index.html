@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>WebDev Revolution 2025 — Landing</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-gradient-start: #00bbff; /* top */
+      --bg-gradient-end: #0d583a;   /* bottom */
+      --accent: #00ffb3;
+      --neon: #00bbff;
+      --card-bg: rgba(255,255,255,0.03);
+      --glass: rgba(255,255,255,0.04);
+      --text: #e6f7ff;
+      --muted: #9bb7c1;
+      --danger: #ff3d3d;
+      --max-width: 1200px;
+      --radius: 12px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:var(--text);
+      background: linear-gradient(135deg,var(--bg-gradient-end), var(--bg-gradient-start));
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+    }
+
+    /* canvas background (three.js) */
+    #bg-canvas{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      z-index:-2;
+      pointer-events:none;
+      display:block;
+      background: linear-gradient(135deg,var(--bg-gradient-end), var(--bg-gradient-start));
+    }
+
+    /* content wrapper */
+    .wrap{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:28px;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:14px 0;
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .logo{
+      width:44px;height:44px;border-radius:10px;
+      background:linear-gradient(135deg,var(--neon), var(--accent));
+      box-shadow: 0 6px 22px rgba(0,187,255,0.14), inset 0 -6px 18px rgba(0,0,0,0.15);
+      display:flex;align-items:center;justify-content:center;font-weight:800;color:#001;
+      font-size:16px;
+    }
+    nav ul{display:flex;gap:18px;list-style:none;padding:0;margin:0}
+    nav a{ color:var(--text); text-decoration:none; font-weight:600; opacity:0.9; font-size:14px }
+    .lang-switch{display:flex; gap:8px; align-items:center;}
+    .btn{
+      background:linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.06);
+      padding:10px 14px;border-radius:10px;color:var(--text);cursor:pointer;font-weight:700;
+      backdrop-filter: blur(6px);
+    }
+    .btn.primary{
+      background: linear-gradient(90deg, rgba(0,187,255,0.14), rgba(0,255,179,0.06));
+      box-shadow:0 8px 40px rgba(0,187,255,0.08);
+      color:#001;
+    }
+
+    /* Hero */
+    .hero{
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:center;
+      padding:60px 0;
+    }
+    .hero-left h1{
+      margin:0 0 12px 0;
+      font-size: clamp(28px,5.2vw,52px);
+      line-height:1.02;
+      letter-spacing:-0.02em;
+      color:var(--text);
+      text-shadow: 0 8px 30px rgba(0,187,255,0.06);
+    }
+    .lead{color:var(--muted); margin-bottom:18px; font-size:15px}
+    .hero-ctas{display:flex;gap:12px;margin-top:12px}
+
+    /* card previews */
+    .card{
+      background:var(--card-bg);
+      border-radius:var(--radius);
+      padding:16px;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 8px 30px rgba(3,11,14,0.35);
+    }
+
+    /* speakers preview */
+    .speakers-preview{display:flex;gap:12px;margin-top:28px}
+    .speaker{width:120px;text-align:center}
+    .speaker img{width:100%;height:120px;object-fit:cover;border-radius:10px;border:1px solid rgba(255,255,255,0.04)}
+
+    /* pricing preview */
+    .pricing-grid{display:flex;gap:12px;margin-top:18px}
+    .price{flex:1;padding:18px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03)}
+    .price h3{margin:0 0 8px 0}
+    .muted{color:var(--muted);font-size:13px}
+
+    /* small util */
+    .center{display:flex;align-items:center;justify-content:center}
+    footer{padding:36px 0;border-top:1px solid rgba(255,255,255,0.03);margin-top:40px;color:var(--muted)}
+    .countdown{display:flex;gap:12px;margin-top:12px}
+    .countdown .item{background:var(--glass);padding:10px 12px;border-radius:8px;min-width:62px;text-align:center}
+
+    /* responsive */
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr; padding:28px 0}
+      nav ul{display:none}
+      .wrap{padding:20px}
+    }
+
+    /* RTL tweaks when Arabic */
+    [dir="rtl"] body{direction:rtl}
+    [dir="rtl"] nav ul{direction:rtl}
+    [dir="rtl"] .hero{grid-template-columns: 420px 1fr}
+  </style>
+</head>
+<body>
+
+  <!-- Three.js canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">W</div>
+        <div>
+          <div style="font-weight:800">WebDev Revolution</div>
+          <div style="font-size:12px;color:var(--muted)">2025 • Tech Conference</div>
+        </div>
+      </div>
+
+      <nav aria-label="Main">
+        <ul>
+          <li><a href="#home" data-i18n="nav.home">Home</a></li>
+          <li><a href="#speakers" data-i18n="nav.speakers">Speakers</a></li>
+          <li><a href="#schedule" data-i18n="nav.schedule">Schedule</a></li>
+          <li><a href="#tickets" data-i18n="nav.tickets">Tickets</a></li>
+        </ul>
+      </nav>
+
+      <div class="lang-switch">
+        <button class="btn" id="toggle-lang" aria-label="Toggle language">EN / ع</button>
+        <button class="btn primary" id="register-cta" data-i18n="cta.register">Register</button>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+      <div class="hero-left">
+        <h1 data-i18n="hero.title">WebDev Revolution 2025 — Shape the Future of the Web</h1>
+        <p class="lead" data-i18n="hero.lead">Join developers, designers and leaders for a two-day deep dive into modern web technologies, tools and workflows.</p>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:12px;color:var(--muted)" data-i18n="hero.dateLabel">Next Event</div>
+              <div style="font-weight:800">Aug 20–21, 2025 • Cairo</div>
+            </div>
+            <div class="countdown" aria-hidden="true" id="countdown">
+              <div class="item"><div id="cd-days">00</div><div class="muted" data-i18n="count.days">Days</div></div>
+              <div class="item"><div id="cd-hours">00</div><div class="muted" data-i18n="count.hours">Hours</div></div>
+              <div class="item"><div id="cd-mins">00</div><div class="muted" data-i18n="count.minutes">Min</div></div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:10px" class="hero-ctas">
+            <button class="btn primary" id="scroll-register" data-i18n="cta.registerNow">Register Now</button>
+            <button class="btn" id="learn-more" data-i18n="cta.learnMore">Learn More</button>
+          </div>
+        </div>
+
+        <!-- speakers preview -->
+        <div class="speakers-preview" style="margin-top:18px">
+          <div class="speaker card">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=600&auto=format&fit=crop&ixlib=rb-4.0.3&s=123" alt="speaker">
+            <div style="margin-top:8px;font-weight:700" data-i18n="spk1.name">A. Hassan</div>
+            <div class="muted" data-i18n="spk1.title">Frontend Architect</div>
+          </div>
+          <div class="speaker card">
+            <img src="https://images.unsplash.com/photo-1545996124-40687b0b6a20?q=80&w=600&auto=format&fit=crop&ixlib=rb-4.0.3&s=abc" alt="speaker">
+            <div style="margin-top:8px;font-weight:700" data-i18n="spk2.name">L. Nassar</div>
+            <div class="muted" data-i18n="spk2.title">AI Engineer</div>
+          </div>
+          <div class="speaker card">
+            <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?q=80&w=600&auto=format&fit=crop&ixlib=rb-4.0.3&s=def" alt="speaker">
+            <div style="margin-top:8px;font-weight:700" data-i18n="spk3.name">S. Karim</div>
+            <div class="muted" data-i18n="spk3.title">UX Lead</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- right column: preview card with pricing -->
+      <aside>
+        <div class="card">
+          <div style="display:flex;gap:12px;align-items:center">
+            <div style="width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,var(--neon),var(--accent));"></div>
+            <div>
+              <div style="font-weight:800">WebDev Revolution</div>
+              <div class="muted" data-i18n="aside.sub">2 Days • Cairo</div>
+            </div>
+          </div>
+
+          <div style="margin-top:16px" class="pricing-grid">
+            <div class="price">
+              <h3 data-i18n="price.standard">Standard</h3>
+              <div style="font-weight:800">€49</div>
+              <div class="muted" style="margin-top:8px" data-i18n="price.stdDesc">Access to talks & workshops</div>
+            </div>
+            <div class="price">
+              <h3 data-i18n="price.vip">VIP</h3>
+              <div style="font-weight:800">€149</div>
+              <div class="muted" style="margin-top:8px" data-i18n="price.vipDesc">VIP seating + Afterparty</div>
+            </div>
+          </div>
+
+          <div style="margin-top:14px;">
+            <button class="btn primary" id="buy-ticket" style="width:100%" data-i18n="cta.getTicket">Get Ticket</button>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <footer>
+      <div style="display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap">
+        <div>
+          <div style="font-weight:800">WebDev Revolution 2025</div>
+          <div class="muted">Aug 20–21 • Cairo</div>
+        </div>
+        <div class="muted">© <span id="yr"></span> WebDev Revolution — All rights reserved</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- SCRIPTS -->
+  <!-- Three.js CDN (r150+) -->
+  <script src="https://unpkg.com/three@0.150.1/build/three.min.js"></script>
+
+  <script>
+    // ------------- I18N strings (EN / AR) -------------
+    const i18n = {
+      en: {
+        "nav.home":"Home",
+        "nav.speakers":"Speakers",
+        "nav.schedule":"Schedule",
+        "nav.tickets":"Tickets",
+        "cta.register":"Register",
+        "cta.registerNow":"Register Now",
+        "cta.learnMore":"Learn More",
+        "cta.getTicket":"Get Ticket",
+        "hero.title":"WebDev Revolution 2025 — Shape the Future of the Web",
+        "hero.lead":"Join developers, designers and leaders for a two-day deep dive into modern web technologies, tools and workflows.",
+        "hero.dateLabel":"Next Event",
+        "count.days":"Days","count.hours":"Hours","count.minutes":"Min",
+        "spk1.name":"A. Hassan","spk1.title":"Frontend Architect",
+        "spk2.name":"L. Nassar","spk2.title":"AI Engineer",
+        "spk3.name":"S. Karim","spk3.title":"UX Lead",
+        "aside.sub":"2 Days • Cairo",
+        "price.standard":"Standard","price.stdDesc":"Access to talks & workshops",
+        "price.vip":"VIP","price.vipDesc":"VIP seating + Afterparty"
+      },
+      ar: {
+        "nav.home":"الرئيسية",
+        "nav.speakers":"المتحدثون",
+        "nav.schedule":"الجدول",
+        "nav.tickets":"التذاكر",
+        "cta.register":"سجل الآن",
+        "cta.registerNow":"سجل الآن",
+        "cta.learnMore":"المزيد",
+        "cta.getTicket":"احصل على تذكرة",
+        "hero.title":"WebDev Revolution 2025 — شكل مستقبل الوب",
+        "hero.lead":"انضم للمطورين والمصممين والقادة في مؤتمر لمدة يومين للتعمّق في تقنيات وممارسات الويب الحديثة.",
+        "hero.dateLabel":"الحدث القادم",
+        "count.days":"أيام","count.hours":"ساعات","count.minutes":"دقائق",
+        "spk1.name":"أ. حسن","spk1.title":"مهندس واجهات",
+        "spk2.name":"ل. ناصر","spk2.title":"مهندس ذكاء صناعي",
+        "spk3.name":"س. كريم","spk3.title":"مسؤول تجربة المستخدم",
+        "aside.sub":"يومان • القاهرة",
+        "price.standard":"عادي","price.stdDesc":"الدخول للمحاضرات وورش العمل",
+        "price.vip":"VIP","price.vipDesc":"مقاعد VIP + بعد الحفل"
+      }
+    };
+
+    // current language
+    let lang = 'en';
+
+    // simple i18n apply
+    function applyLang(to){
+      lang = to;
+      // set direction
+      document.documentElement.lang = (to === 'ar') ? 'ar' : 'en';
+      document.documentElement.dir = (to === 'ar') ? 'rtl' : 'ltr';
+      // update text nodes
+      document.querySelectorAll('[data-i18n]').forEach(node=>{
+        const key = node.getAttribute('data-i18n');
+        if(i18n[to] && i18n[to][key]) node.innerText = i18n[to][key];
+      });
+      // adjust text align for hero for RTL
+      document.querySelectorAll('.lead, h1, .card, .muted').forEach(n=>{
+        n.style.textAlign = (to === 'ar') ? 'right' : 'left';
+      });
+    }
+
+    // toggle button
+    document.getElementById('toggle-lang').addEventListener('click', ()=>{
+      applyLang(lang === 'en' ? 'ar' : 'en');
+    });
+
+    // init default
+    applyLang('en');
+
+    // set footer year
+    document.getElementById('yr').innerText = new Date().getFullYear();
+
+    // ------------- Countdown -------------
+    const eventDate = new Date('2025-08-20T09:00:00'); // change to your event date/time
+    function updateCountdown(){
+      const now = new Date();
+      const diff = Math.max(0, eventDate - now);
+      const days = Math.floor(diff / (1000*60*60*24));
+      const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+      const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+      document.getElementById('cd-days').innerText = String(days).padStart(2,'0');
+      document.getElementById('cd-hours').innerText = String(hours).padStart(2,'0');
+      document.getElementById('cd-mins').innerText = String(mins).padStart(2,'0');
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000*60);
+
+    // ------------- Three.js background + particles -------------
+    (function(){
+      const canvas = document.getElementById('bg-canvas');
+      if(!canvas || typeof THREE === 'undefined') return;
+
+      const scene = new THREE.Scene();
+
+      // gradient background as texture (top: #00bbff, bottom: #0d583a)
+      const canvasBg = document.createElement('canvas');
+      canvasBg.width = 1; canvasBg.height = 256;
+      const ctx = canvasBg.getContext('2d');
+      const grad = ctx.createLinearGradient(0,0,0,256);
+      grad.addColorStop(0, '#00bbff');
+      grad.addColorStop(1, '#0d583a');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0,0,1,256);
+      const texture = new THREE.Texture(canvasBg);
+      texture.needsUpdate = true;
+      scene.background = texture;
+
+      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 6;
+
+      const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias:true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      // particles with per-vertex color (gradient by Y)
+      const particlesCount = 1200;
+      const positions = new Float32Array(particlesCount * 3);
+      const colors = new Float32Array(particlesCount * 3);
+      const top = new THREE.Color('#00bbff');
+      const bottom = new THREE.Color('#0d583a');
+
+      for(let i=0;i<particlesCount;i++){
+        const x = (Math.random() - 0.5) * 12;
+        const y = (Math.random() - 0.5) * 8;
+        const z = (Math.random() - 0.5) * 12;
+        positions[i*3] = x;
+        positions[i*3+1] = y;
+        positions[i*3+2] = z;
+
+        const t = (y + 4) / 8; // normalize roughly -4..4 to 0..1
+        const col = bottom.clone().lerp(top, THREE.MathUtils.clamp(t, 0, 1));
+        colors[i*3] = col.r; colors[i*3+1] = col.g; colors[i*3+2] = col.b;
+      }
+
+      const pg = new THREE.BufferGeometry();
+      pg.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      pg.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+      const pmat = new THREE.PointsMaterial({
+        size: 0.03,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.9,
+        blending: THREE.AdditiveBlending
+      });
+
+      const particles = new THREE.Points(pg, pmat);
+      scene.add(particles);
+
+      // torus knot with gradient shader
+      const tkGeo = new THREE.TorusKnotGeometry(1.1, 0.28, 120, 24);
+      const tkMaterial = new THREE.ShaderMaterial({
+        uniforms: {},
+        vertexShader: `
+          varying vec3 vPos;
+          void main(){
+            vPos = position;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+          }
+        `,
+        fragmentShader: `
+          varying vec3 vPos;
+          void main(){
+            vec3 topColor = vec3(0.0, 0.733, 1.0);
+            vec3 bottomColor = vec3(0.051, 0.345, 0.227);
+            float t = (vPos.y + 1.2) / 2.4;
+            vec3 c = mix(bottomColor, topColor, clamp(t,0.0,1.0));
+            gl_FragColor = vec4(c, 0.8);
+          }
+        `,
+        wireframe: true,
+        transparent: true,
+        depthWrite: false
+      });
+      const torusKnot = new THREE.Mesh(tkGeo, tkMaterial);
+      torusKnot.scale.setScalar(1.1);
+      scene.add(torusKnot);
+
+      // mouse interaction
+      let mouseX = 0, mouseY = 0;
+      window.addEventListener('pointermove', (e)=>{
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+      });
+
+      function animate(){
+        requestAnimationFrame(animate);
+        particles.rotation.y += 0.0008;
+        particles.rotation.x += 0.0004;
+        torusKnot.rotation.x += 0.007;
+        torusKnot.rotation.y += 0.01;
+
+        // camera easing based on mouse
+        camera.position.x += (mouseX * 0.8 - camera.position.x) * 0.05;
+        camera.position.y += (mouseY * 0.6 - camera.position.y) * 0.05;
+        camera.lookAt(0,0,0);
+
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      // handle resize
+      window.addEventListener('resize', ()=>{
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    })();
+
+    // Scroll-to-register (example target)
+    document.getElementById('scroll-register').addEventListener('click', ()=> {
+      // if you later add registration page, change link to that page
+      window.scrollTo({ top: document.body.scrollHeight * 0.6, behavior: 'smooth' });
+    });
+
+    // quick demo: register CTA opens alert (replace with real form later)
+    document.getElementById('register-cta').addEventListener('click', ()=>{
+      alert((lang === 'ar') ? 'نموذج التسجيل سيظهر هنا (تطوير لاحق)' : 'Registration form will appear here (to be implemented)');
+    });
+
+  </script>
+</body>
+</html>
