@@ -18,7 +18,7 @@ const i18n = {
     "pricing.title":"Pricing","pricing.lead":"Choose a ticket that fits your needs.",
     "blog.title":"Blog","blog.lead":"Articles and deep dives about modern web technologies.","post1.title":"Speed up your site in 5 steps","post2.title":"Intro to Three.js",
     "faq.title":"FAQ","faq.lead":"Common questions about the event and logistics.","faq.q1":"How long to build a site?","faq.a1":"Typical projects range from 1–4 weeks depending on scope.",
-    "privacy.title":"Privacy"
+    "privacy.title":"Privacy", "nav.about":"About","nav.contact":"contact","nav.privacy":"privacy","nav.blog":"blog",
   },
   ar: {
     "nav.home":"الرئيسية","nav.speakers":"المتحدثون","nav.schedule":"الجدول","nav.tickets":"التذاكر",
@@ -37,16 +37,17 @@ const i18n = {
     "pricing.title":"الأسعار","pricing.lead":"اختر التذكرة المناسبة.",
     "blog.title":"المدونة","blog.lead":"مقالات حول تقنيات الويب الحديثة.","post1.title":"سرّع موقعك في 5 خطوات","post2.title":"مقدمة إلى Three.js",
     "faq.title":"الأسئلة","faq.lead":"أسئلة متكررة عن الحدث.","faq.q1":"كم يستغرق بناء الموقع؟","faq.a1":"عادة من أسبوع إلى 4 أسابيع حسب النطاق.",
-    "privacy.title":"الخصوصية"
+    "privacy.title":"الخصوصية","nav.about":"عن المؤتمر","nav.contact":"تواصل معنا", "nav.privacy":"الخصوصيه","nav.blog":"المدونه",
   }
 };
 
 // current language
-let lang = 'en';
+let lang = localStorage.getItem('lang') || 'en';
 
 // apply translations on elements with data-i18n
 function applyLang(to){
   lang = to;
+  localStorage.setItem('lang', lang); // حفظ اللغة
   document.documentElement.lang = (to === 'ar') ? 'ar' : 'en';
   document.documentElement.dir = (to === 'ar') ? 'rtl' : 'ltr';
   document.querySelectorAll('[data-i18n]').forEach(node=>{
@@ -59,15 +60,15 @@ function applyLang(to){
   });
 }
 
-// toggle language button (single global id)
+// toggle language button
 document.addEventListener('click', (e)=>{
   if(e.target && e.target.id === 'toggle-lang'){
     applyLang(lang === 'en' ? 'ar' : 'en');
   }
 });
 
-// set initial language (try browser)
-const initial = (navigator.language && navigator.language.startsWith('ar')) ? 'ar' : 'en';
+// set initial language (from localStorage or browser)
+const initial = localStorage.getItem('lang') || ((navigator.language && navigator.language.startsWith('ar')) ? 'ar' : 'en');
 applyLang(initial);
 
 // footer year
@@ -76,7 +77,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
   if(yr) yr.innerText = new Date().getFullYear();
 });
 
-// Countdown (only used on index page but harmless elsewhere)
+// Countdown (index page)
 const eventDate = new Date('2025-08-20T09:00:00');
 function updateCountdown(){
   const now = new Date();
@@ -94,7 +95,7 @@ function updateCountdown(){
 updateCountdown();
 setInterval(updateCountdown, 1000*60);
 
-// contact form (simple demo)
+// contact form (demo)
 document.addEventListener('submit', async (e)=>{
   if(e.target && e.target.id === 'contact-form'){
     e.preventDefault();
@@ -225,9 +226,10 @@ document.addEventListener('submit', async (e)=>{
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
 })();
+
+// menu toggle
 const menuToggle = document.querySelector('.menu-toggle');
 const nav = document.querySelector('nav');
-
 menuToggle.addEventListener('click', () => {
   nav.classList.toggle('active');
 });
