@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title data-i18n="privacy.title">Privacy — WebDev Revolution</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+  <canvas id="bg-canvas"></canvas>
+  <div class="wrap">
+    <header>
+      <div class="brand"><div class="logo">W</div><div><div style="font-weight:800">WebDev Revolution</div><div style="font-size:12px;color:var(--muted)">2025 • Tech Conference</div></div></div>
+      <div class="lang-switch"><button class="btn" id="toggle-lang">EN / ع</button><button class="btn primary" id="register-cta" data-i18n="cta.register">Register</button></div>
+    </header>
+<nav aria-label="Main">
+        <ul>
+          <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+          <li><a href="speakers.html" data-i18n="nav.speakers">Speakers</a></li>
+          <li><a href="schedule.html" data-i18n="nav.schedule">Schedule</a></li>
+          <li><a href="tickets.html" data-i18n="nav.tickets">Tickets</a></li>
+          <li><a href="about.html" data-i18n="nav.about">about</a></li>
+          <li><a href="contact.html" data-i18n="nav.contact">contact</a></li>
+          <li><a href="blog.html" data-i18n="nav.blog">blog</a></li>
+          <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+          <li><a href="privacy.html" data-i18n="nav.privacy">Privacy</a></li>
+          <li><a href="#tickets" data-i18n="nav.tickets">Tickets</a></li>
+        </ul>
+      </nav>
+      <div class="menu-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+    <main>
+      <section class="card" style="margin-top:28px">
+        <h1 data-i18n="privacy.title">Privacy Policy</h1>
+        <p class="lead">Short privacy text — mention cookies, analytics and contact info. (Edit this to your real policy.)</p>
+      </section>
+    </main>
+
+    <footer>
+      <div style="display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap">
+        <div><div style="font-weight:800">WebDev Revolution 2025</div><div class="muted">Aug 20–21 • Cairo</div></div>
+        <div class="muted">© <span id="yr"></span> WebDev Revolution — All rights reserved</div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="https://unpkg.com/three@0.150.1/build/three.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
